@@ -11,7 +11,26 @@
             </if>
         </where>
     </select>
+
     <insert id="saveUser" parameterType="top.arexstorm.entity.User">
-        insert into <include refid="table" /> (username, )
+        insert into <include refid="table" /> (username, age, interests) values (#{username}, #{age}, #{interests})
     </insert>
+
+    <select id="findUserList" parameterType="java.util.Map" resultType="top.arexstorm.entity.User">
+        select * from <include refid="table" />
+        <where>
+            <if test="keywords != null">
+                and (username like concat('%', #{keywords}, '%') or interests like concat('%', #{keywords}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteUser" parameterType="java.util.Map">
+        delete from <include refid="table" />
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </delete>
 </mapper>

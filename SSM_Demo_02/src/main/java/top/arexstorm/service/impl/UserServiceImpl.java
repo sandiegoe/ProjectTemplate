@@ -6,6 +6,8 @@ import top.arexstorm.dao.UserDao;
 import top.arexstorm.entity.User;
 import top.arexstorm.service.UserService;
 
+import java.util.List;
+
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
 
@@ -20,5 +22,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer saveUser(User user) throws Exception {
 		return userDao.saveUser(user);
+	}
+
+	@Override
+	public List<User> findUserList(String keywords) {
+		return userDao.findUserList(keywords);
+	}
+
+	@Override
+	public Integer deleteUser(String id) {
+		return userDao.deleteUser(id);
 	}
 }
