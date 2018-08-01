@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import top.arexstorm.annotation.HeaderRequire;
+import top.arexstorm.annotation.IgnorerRights;
 import top.arexstorm.annotation.ParamRequire;
 import top.arexstorm.entity.User;
 import top.arexstorm.service.UserService;
@@ -22,6 +23,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@IgnorerRights
 	@RequestMapping(value = "/{id}", method = {RequestMethod.GET, RequestMethod.POST})
 	public User findUser(@PathVariable(value = "id") Long id, HttpServletRequest req) throws Exception {
 		User user = userService.findById(id);
