@@ -6,6 +6,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import top.arexstorm.exception.BizException;
 
 import java.lang.annotation.Annotation;
 
@@ -35,11 +36,11 @@ public abstract class BlankResolver implements HandlerMethodArgumentResolver {
 			if (paramValues.length == 1) {
 				param = paramValues[0];
 			} else {
-				throw new Exception("Multiple param not support");
+				throw new BizException(1, "Multiple param not support");
 			}
 		}
 		if (StringUtils.isBlank(param)) {
-			throw new Exception("blank " + name + " error");
+			throw new BizException(2, "blank " + name + " error");
 		}
 		return c.getConstructor(new Class[]{String.class}).newInstance(new String[]{param});
 	}

@@ -3,9 +3,11 @@ package top.arexstorm;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.arexstorm.Inteceptor.RightsInterceptor;
+import top.arexstorm.exception.CustomerExceptionResolver;
 import top.arexstorm.resolver.BlankHeaderArgumentResolver;
 import top.arexstorm.resolver.BlankParamArgumentResolver;
 
@@ -27,5 +29,10 @@ public class SsmDemo02Application implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new RightsInterceptor());
+	}
+
+	@Override
+	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+		resolvers.add(new CustomerExceptionResolver());
 	}
 }

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import top.arexstorm.annotation.IgnorerRights;
+import top.arexstorm.exception.BizException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,9 +29,9 @@ public class RightsInterceptor implements HandlerInterceptor {
 			if (StringUtils.isNotBlank(token)) { // token is not blank
 				//对于token的进一步验证，或者 权限验证....
 				return true;
-				//throw Exception("No Access...");
+				//throw BizException(3, "No Access...");
 			}
-			throw new Exception("Go to login...");
+			throw new BizException(4, "Go to login...");
 		} catch (Exception e) {
 			response.setHeader("Access-Control-Allow-Credentials", "true"); //解决跨域访问报错
 			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin")); //解决跨域访问报错

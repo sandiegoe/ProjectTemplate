@@ -9,12 +9,11 @@ import top.arexstorm.annotation.HeaderRequire;
 import top.arexstorm.annotation.IgnorerRights;
 import top.arexstorm.annotation.ParamRequire;
 import top.arexstorm.entity.User;
+import top.arexstorm.response.AppResponse;
 import top.arexstorm.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequestMapping(value = "/user")
 @RestController
@@ -25,22 +24,20 @@ public class UserController {
 
 	@IgnorerRights
 	@RequestMapping(value = "/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-	public User findUser(@PathVariable(value = "id") Long id, HttpServletRequest req) throws Exception {
+	public AppResponse findUser(@PathVariable(value = "id") Long id, HttpServletRequest req) {
 		User user = userService.findById(id);
-		return user;
+		return AppResponse.okData(user);
 	}
 
 	@RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-	public List<User> findUserList(@ParamRequire String keywords, HttpServletRequest req) {
+	public AppResponse findUserList(@ParamRequire String keywords, HttpServletRequest req) {
 		List<User> list = userService.findUserList(keywords);
-		return list;
+		return AppResponse.okList(list);
 	}
 
 	@RequestMapping(value = "/delete", method = {RequestMethod.GET, RequestMethod.POST})
-	public Map<String, Object> deleteUser(@HeaderRequire String id, HttpServletRequest req) {
+	public AppResponse deleteUser(@HeaderRequire String id, HttpServletRequest req) {
 		Integer result = userService.deleteUser(id);
-		Map<String, Object> map = new HashMap<>();
-		map.put("result", result);
-		return map;
+		return AppResponse.okData(result);
 	}
 }
