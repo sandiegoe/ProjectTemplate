@@ -8,8 +8,24 @@ import top.arexstorm.exception.BizException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RightsInterceptor implements HandlerInterceptor {
+
+	private static List<String> whiteList;
+
+	static {
+		if (whiteList == null) {
+			whiteList = new ArrayList<>();
+			if (whiteList != null) {
+				whiteList.add("configuration/ui");
+				whiteList.add("swagger-resources");
+				whiteList.add("v2/api-docs");
+				whiteList.add("configuration/security");
+			}
+		}
+	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -25,6 +41,10 @@ public class RightsInterceptor implements HandlerInterceptor {
 				System.out.println("do not need option url... " + request.getRequestURI());
 				return true;
 			}
+			if (isInwhiteList(request.getRequestURI())) {
+				System.out.println("white list ------  " + request.getRequestURI());
+				return true;
+			}
 			String token = request.getParameter("token");
 			if (StringUtils.isNotBlank(token)) { // token is not blank
 				//对于token的进一步验证，或者 权限验证....
@@ -37,6 +57,21 @@ public class RightsInterceptor implements HandlerInterceptor {
 			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin")); //解决跨域访问报错
 			throw e;
 		}
+	}
+
+	private boolean isInwhiteList(String requestURI) {
+		if (StringUtils.isBlank(requestURI)) {
+			return false;
+		}
+		if (whiteList == null || whiteList.size() == 0) {
+			return false;
+		}
+		for (String white : whiteList) {
+			if (requestURI.toLowerCase().contains(white.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

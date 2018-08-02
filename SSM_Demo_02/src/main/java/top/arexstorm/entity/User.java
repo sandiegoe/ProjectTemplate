@@ -1,11 +1,15 @@
 package top.arexstorm.entity;
 
 import com.alibaba.fastjson.JSON;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
+@ApiModel(value = "user对象", description = "用户对象")
 public class User implements Serializable {
 
+	@ApiModelProperty(name = "id", value = "用户id", example = "1")
 	private Long id;
 	private String username;
 	private Integer age;
